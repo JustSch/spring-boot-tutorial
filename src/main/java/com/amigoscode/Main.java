@@ -42,4 +42,19 @@ public class Main {
     public void deleteCustomer(@PathVariable("customerId") Integer id) {
         customerRepository.deleteById(id);
     }
+
+    record  UpdateCustomerRequest(
+            Integer id,
+            String name,
+            String email,
+            Integer age
+    ){}
+    @PutMapping("/update")
+    public void updateCustomer(@RequestBody UpdateCustomerRequest request){
+        Customer customer = customerRepository.getReferenceById(request.id());
+        customer.setName(request.name());
+        customer.setEmail(request.email());
+        customer.setAge(request.age());
+        customerRepository.save(customer);
+    }
 }
